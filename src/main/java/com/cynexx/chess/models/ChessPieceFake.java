@@ -15,15 +15,15 @@ public class ChessPieceFake extends AbstractChessPiece {
 
     private final String pieceType = "fake";
     private final int value = 0;
-    private final String symbol = "[" + "2000" + "]";
+    private final String symbol = " ";
     private final String pattern = "o";
-    private final String mapView = "[ ]";
-
+    private final String mapView = " ";
+    private static int timesCreated = 0;
     //private final String whiteSymbol = "[" + "\u2657" + "]";
-   // private final String blackSymbol = "[" + "\u265D" + "]";
+    // private final String blackSymbol = "[" + "\u265D" + "]";
 
     public ChessPieceFake() {
-
+        timesCreated++;
     }
 
     @Override
@@ -59,6 +59,11 @@ public class ChessPieceFake extends AbstractChessPiece {
     @Override
     public String getPattern() {
         return this.pattern;
+    }
+
+    @Override
+    public int getTimesCreated() {
+        return timesCreated;
     }
 
 }

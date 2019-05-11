@@ -57,6 +57,7 @@ public class MainMenuController implements Initializable {
         //    FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/ClassicGame.fxml"));
         Parent classicGame = (VBox) FXMLLoader.load(getClass().getResource("/fxml/ClassicGame.fxml"));
         //     Scene scene = new Scene(classicGame);
+        com.cynexx.chess.MainApp.getStage().setScene(new Scene(classicGame, 800, 700));
 
     }
 

@@ -16,9 +16,13 @@ public interface ChessPiece {
     public String getPattern();
 
     public String getSymbol();
+    
+    public String getID();
+    
+    public void setID(String id);
 
     public String getPieceType();
-    
+
     public String getMapView();
 
     public int getValue();
@@ -42,5 +46,7 @@ public interface ChessPiece {
     public void setInCheckMate(boolean inCheckMate);
 
     public void resurrect();
+
+    public int getTimesCreated();
 
 }

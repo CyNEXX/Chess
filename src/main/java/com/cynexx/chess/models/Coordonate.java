@@ -14,9 +14,9 @@ public class Coordonate {
     private final int x;
     private final int y;
 
-    public Coordonate(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Coordonate(int columnIndex, int rowIndex) {
+        this.x = columnIndex;
+        this.y = rowIndex;
     }
 
     public int getX() {

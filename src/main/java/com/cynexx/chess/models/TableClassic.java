@@ -55,13 +55,13 @@ public class TableClassic extends AbstractTable {
                 } else if (evenRow && k % 2 == 0) {
                     slotColor = Color.BLACK;
                 }
-                Coordonate coordonate = new Coordonate(i, k);
+                Coordonate coordonate = new Coordonate(k, i);
                 TableSlot tempSlot = new TableSlotClassic(slotColor);
                 tempSlot.setChessPiece(new ChessPieceFake());
                 this.putCoordonateAndTableSlot(coordonate, tempSlot);
             }
         }
-        System.out.println("Done creating table.");
+        System.out.println("Done initializing table.");
     }
 
     @Override
@@ -87,7 +87,7 @@ public class TableClassic extends AbstractTable {
 
     @Override
     public void quickPreview() {
-        System.out.println("Printing table... " + mapView.size());
+        System.out.println("Printing table... " + mapView.size() + " rows.");
         for (int i = mapView.size() - 1; i >= 0; i--) {
             System.out.println(mapView.get(i));
         }

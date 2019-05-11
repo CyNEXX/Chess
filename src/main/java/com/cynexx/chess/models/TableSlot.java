@@ -20,7 +20,9 @@ public interface TableSlot {
     public void setChessPiece(ChessPiece chessPiece);
 
     public boolean isFree();
-    
+
+    public boolean hasFake();
+
     public void clearSlot();
 
 }

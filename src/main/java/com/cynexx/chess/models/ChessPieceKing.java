@@ -23,9 +23,10 @@ public class ChessPieceKing extends AbstractChessPiece {
     private final String mapView = "[K]";
     List<Coordonate> allMoves = new ArrayList<>();
     List<TableSlot> allDestinationSlots = new ArrayList<>();
+    private static int timesCreated = 0;
 
-    private final String whiteSymbol = "[" + "\u2654" + "]";
-    private final String blackSymbol = "[" + "\u265A" + "]";
+    private final String whiteSymbol = "\u2654";
+    private final String blackSymbol = "\u265A";
 
     public ChessPieceKing(AbstractChessPiece.ChessColor chessPieceColor) {
         if (chessPieceColor == AbstractChessPiece.ChessColor.BLACK) {
@@ -34,6 +35,7 @@ public class ChessPieceKing extends AbstractChessPiece {
         if (chessPieceColor == AbstractChessPiece.ChessColor.WHITE) {
             symbol = whiteSymbol;
         }
+        timesCreated++;
     }
 
     @Override
@@ -134,6 +136,11 @@ public class ChessPieceKing extends AbstractChessPiece {
         }
 
         return allMoves;
+    }
+
+    @Override
+    public int getTimesCreated() {
+        return timesCreated;
     }
 
 }

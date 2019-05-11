@@ -11,6 +11,46 @@
 <?import javafx.scene.control.ToggleGroup?>
 
 
-<VBox styleClass="mainFxmlClass" id="gridPane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cynexx.chess.controllers.ClassicGameController">
-   
+<VBox styleClass="mainFxmlClass" id="classicGamePane" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cynexx.chess.controllers.ClassicGameController">
+    <stylesheets>
+        <URL value="@/styles/classicgame.css"/>
+    </stylesheets>
+    <VBox fx:id="mainVBox">
+        <children>
+            <VBox fx:id="playerPane">
+                <children>
+                    <Label fx:id="playerLabel" text="">
+                        
+                    </Label>
+                </children>
+            </VBox>
+            
+            <HBox fx:id="actionPane">
+                <VBox fx:id="rowsPane">
+                </VBox>
+                <VBox fx:id="tablePane">
+                </VBox>
+                <VBox fx:id="detailsPane">
+                    <HBox fx:id="timePane">
+                    </HBox>
+                    <HBox fx:id="selectPane">
+                        <!--                        <Label fx:id="selectedCP">
+                            <text>${selectedChessPieceText}</text>
+                        </Label>-->
+                        <Button fx:id="currentButton"/>
+                    </HBox>
+                    <HBox fx:id="statsPane">
+                    </HBox>
+                </VBox>
+            </HBox>
+            
+            
+        
+            
+        
+            
+        </children>
+    </VBox>
+    
+       
 </VBox>

@@ -10,22 +10,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.paint.Color;
 
 /**
  *
  * @author CyNEXX
  */
-public class GameClassic extends AbstractGame {
+public class GameClassic {
 
-    private Table table;
-    private static List<Player> playerList = new ArrayList<>();
-    private static final String LOADING_PATTERN = "R:11-N:12-B:13-Q:14-K:15-B:16-N:17-R:18-P:11-P:12-P:13-P:14-P:15-P:16-P:17-P:18";
+    /*private Table table;
+    private final ObjectProperty<Player> currentPlayer = new SimpleObjectProperty<>();
+    //private static List<Player> playerList = new ArrayList<>();
+    //private static final String LOADING_PATTERN = "R:11-N:12-B:13-Q:14-K:15-B:16-N:17-R:18-P:11-P:12-P:13-P:14-P:15-P:16-P:17-P:18";
     private static final String ORIGINAL_PATTERN = "0r11-0n12-0b13-0q14-0k15-0b16-0n17-0r18-0p21-0p22-0p23-0p24-0p25-0p26-0p27-0p28-1p71-1p72-1p73-1p74-1p75-1p76-1p77-1p78-1r81-1n82-1b83-1q84-1k85-1b86-1n87-1r88";
 
     public GameClassic(Table table, List<Player> playerList) {
         super(table, playerList);
         this.table = table;
+    }
+
+    @Override
+    public Player getCurrentPlayer() {
+        return currentPlayer.get();
+    }
+
+    @Override
+    public void setCurrentPlayer(Player player) {
+        currentPlayer.set(player);
+    }
+
+    @Override
+    public ObjectProperty<Player> currentPlayerProperty() {
+        return currentPlayer;
     }
 
     public Table getTable() {
@@ -41,15 +59,16 @@ public class GameClassic extends AbstractGame {
     }
 
     @Override
-    public void setPlayerInventory() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void initializePlayersInventory() {
+
     }
 
     @Override
     public void startGame() {
+        initializePlayersInventory();
         populateTable();
         table.createPrintableTable();
-        //table.quickPreview();
+        setCurrentPlayer(getPlayerList().get(0));
     }
 
     @Override
@@ -120,7 +139,26 @@ public class GameClassic extends AbstractGame {
                     break;
                 }
             }
+            getPlayerInventory().get(getPlayerList().get(ownerIndex)).add(cp);
         });
     }
 
+    @Override
+    public void movePiece(Player player, Coordonate fromCoordonate, Coordonate toCoordonate) {
+        if (player.getName().equals(getCurrentPlayer().getName())) {
+            ChessPiece selectedChessPiece = table.getCoordonatesOfAllTableSlots().get(fromCoordonate).getChessPiece();
+            TableSlot selectedTableSlot = table.getCoordonatesOfAllTableSlots().get(fromCoordonate);
+            TableSlot targetTableSlot = table.getCoordonatesOfAllTableSlots().get(toCoordonate);
+            if (getPlayerInventory().get(player).contains(selectedChessPiece)) {
+                List<Coordonate> possibleCoordonates = selectedChessPiece.getAllMoves(fromCoordonate, table);
+                if (possibleCoordonates.contains(toCoordonate)) {
+                    if (targetTableSlot.isFree() || targetTableSlot.hasFake()) {
+                        targetTableSlot.setChessPiece(selectedChessPiece);
+                        selectedTableSlot.clearSlot();
+                        selectedTableSlot.setChessPiece(new ChessPieceFake());
+                    }
+                }
+            }
+        }
+    }*/
 }

@@ -1,7 +1,168 @@
-/*
- * Empty Stylesheet file.
- */
-
 .mainFxmlClass {
+    -fx---darkslot : #96281b;
+    -fx---lightslot: #f1a9a0;
+    -fx---darkcp : #664e4b;
+    -fx---lightcp: #ded3d2;
+    -fx---fillcolor: #4D4D4D;   
+    -fx---darkgray: #565656;
+    -fx---yellowcolor: #e7d45d;
+}
 
+#playerLabel {
+    -fx-text-fill: -fx---fillcolor;
+    -fx-padding: 10px;
+    -fx-font-size: 13pt;
+}
+
+.maingridclass {
+    -fx-grid-lines-visible: false;
+    -fx-vertical-alignment: middle;
+}
+
+.tableslot {    
+    -fx-min-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 80px;
+    -fx-min-height: 80px;
+    -fx-margin: 0;
+    -fx-padding: 0;
+    -fx-border: none;
+    -fx-text-alignment: center;
+}
+
+.selectPane {    
+    -fx-min-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 80px;
+    -fx-min-height: 80px;
+    -fx-margin: 0;
+    -fx-padding: 0;
+    -fx-border: none;
+    -fx-text-alignment: center;
+}
+
+.slotbuttons:hover {    
+    -fx-background-color: white;
+}
+
+.slotbuttons:selected {    
+
+}
+
+#currentButton {
+    -fx-min-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 80px;
+    -fx-min-height: 80px;
+    -fx-font-size: 50pt;
+
+
+    -fx-border-radius: 0px;
+    -fx-margin: 0;
+    -fx-padding: 0;
+    -fx-border: none;
+
+    -fx-text-alignment: center;
+    -fx-vertical-alignment: middle;
+    -fx-background-color: transparent;
+}
+
+#tablePane {
+    /*    -fx-background-insets: 2;
+        -fx-table-layout: fixed;
+        -fx-text-align: center;
+        -fx-min-width: 600px;
+        -fx-max-width: 600px;
+        -fx-border-collapse: collapse;
+        -fx-border: none;
+         -fx-min-height: 335px;
+        -fx-max-height: 335px;*/
+
+
+    /*    -fx-background: -fx---fillcolor;*/
+    /*    -fx-text-fill: -fx---bluishcolor;*/
+    /*    -fx-background-color: -fx---darkgray;*/
+    -fx-border-color: -fx---darkgray;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.9), 10, 0, 0, 0);
+
+}
+
+
+
+
+
+
+
+.slotbuttons {
+    -fx-min-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 80px;
+    -fx-min-height: 80px;
+    -fx-font-size: 50pt;
+
+
+    -fx-border-radius: 0px;
+    -fx-margin: 0;
+    -fx-padding: 0;
+    -fx-border: none;
+
+    -fx-text-alignment: center;
+    -fx-vertical-alignment: middle;
+    -fx-background-color: transparent;
+
+}
+
+.slotblack {
+    -fx-background-color: -fx---darkslot;
+}
+
+.slotwhite {
+    -fx-background-color: -fx---lightslot;
+}
+
+
+
+
+.owner_0 {
+    -fx-text-fill: -fx---lightcp;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);
+}
+
+.owner_1 {
+    -fx-text-fill: -fx---darkcp;
+    -fx-effect: dropshadow(three-pass-box, rgba(255,255,255,0.8), 4, 0, 0, 0);
+} 
+
+.slotbuttons:selected {
+    -fx-background-color: -fx---darkgray;
+    -fx-text-fill: -fx---yellowcolor;
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.9), 10, 0, 0, 0);
+}
+
+
+.owner_0:selected {
+    /*    -fx-background-color: rgba(130, 130, 130, 1);*/
+    /*    -fx-background-color: inherit;
+    
+    
+        -fx-text-fill: -fx---darkcp;
+        -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.9), 10, 0, 0, 0);*/
+
+}
+/*three-pass-box*/
+.owner_1:selected {
+    /*    -fx-background-color: rgba(30, 30, 30, 0.8);*/
+    /*    -fx-background-color: rgba(241, 169, 160, 1);*/
+    /*    -fx-background-color: inherit;
+    
+        -fx-text-fill: -fx---lightcp;
+        -fx-effect: innershadow(three-pass-box, rgba(0, 0, 0, 0.9), 10, 0, 0, 0);*/
+}
+
+#maingrid>.tableslot:nth-child(odd) {
+    -fx-background-color: blue;
+}
+
+.hoverableslot:hover {
+    -fx-background-color: white;
 }

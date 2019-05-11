@@ -12,11 +12,16 @@ import javafx.scene.paint.Color;
  * @author CyNEXX
  */
 public class TableSlotClassic extends AbstractTableSlot {
-    
-    
+
     public TableSlotClassic(Color color) {
         super(color);
         super.setChessPiece(new ChessPieceFake());
     }
-    
+
+    @Override
+    public boolean hasFake() {
+        return getChessPiece() instanceof ChessPieceFake;
+    }
+;
+
 }

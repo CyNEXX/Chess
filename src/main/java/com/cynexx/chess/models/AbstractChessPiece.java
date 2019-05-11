@@ -12,8 +12,10 @@ import java.util.List;
  * @author CyNEXX
  */
 public abstract class AbstractChessPiece implements ChessPiece {
-    
-    enum ChessColor {BLACK, WHITE}
+
+    public enum ChessColor {
+        BLACK, WHITE
+    }
 
     private boolean alive = true;
     private boolean jump;
@@ -21,11 +23,13 @@ public abstract class AbstractChessPiece implements ChessPiece {
     private String symbol;
     private String pattern;
     private int value;
+    private String ID;
 
     private boolean inCheck;
     private boolean inCheckMate;
-    
-    public AbstractChessPiece() {}
+
+    public AbstractChessPiece() {
+    }
 
     @Override
     public String getPattern() {
@@ -94,6 +98,34 @@ public abstract class AbstractChessPiece implements ChessPiece {
     @Override
     public void setInCheckMate(boolean inCheckMate) {
 
+    }
+
+    @Override
+    public String getID() {
+        return this.ID;
+    }
+
+    @Override
+    public void setID(String id) {
+        this.ID = id;
+    }
+
+    @Override
+    public boolean equals(Object comparingChessPiece) {
+        if (comparingChessPiece == null || !(comparingChessPiece instanceof ChessPiece)) {
+            return false;
+        }
+        if (comparingChessPiece == this) {
+            return true;
+        }
+
+        return (((ChessPiece) comparingChessPiece).getID().equals(this.getID()));
+
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getID().hashCode();
     }
 
 }

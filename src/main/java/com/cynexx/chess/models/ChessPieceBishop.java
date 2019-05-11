@@ -16,12 +16,12 @@ public class ChessPieceBishop extends AbstractChessPiece {
 
     private final String pieceType = "Bishop";
     private final int value = 4;
-    //private final String symbol = "[" + "\u2657" + "]";
-    private String symbol = "";
+    private String symbol;
     private final String pattern = "b";
     private final String mapView = "[b]";
-    private final String whiteSymbol = "[" + "\u2657" + "]";
-    private final String blackSymbol = "[" + "\u265D" + "]";
+    private final String whiteSymbol = "\u2657";
+    private final String blackSymbol = "\u265D";
+    private static int timesCreated = 0;
 
     List<Coordonate> allMoves = new ArrayList<>();
     List<TableSlot> allDestinationSlots = new ArrayList<>();
@@ -33,6 +33,7 @@ public class ChessPieceBishop extends AbstractChessPiece {
         if (chessPieceColor == AbstractChessPiece.ChessColor.WHITE) {
             symbol = whiteSymbol;
         }
+        timesCreated++;
     }
 
     @Override
@@ -68,6 +69,11 @@ public class ChessPieceBishop extends AbstractChessPiece {
     @Override
     public String getPattern() {
         return this.pattern;
+    }
+
+    @Override
+    public int getTimesCreated() {
+        return timesCreated;
     }
 
     /*@Override

@@ -5,6 +5,8 @@
  */
 package com.cynexx.chess.models;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,11 +16,11 @@ import javafx.scene.paint.Color;
 public abstract class AbstractPlayer implements Player {
 
     private long elapsedTime = 0;
-    private String name;
+    private StringProperty name = new SimpleStringProperty();
     private Color color;
 
     public AbstractPlayer(String name, Color color) {
-        this.name = name;
+        this.name.set(name);
         this.color = color;
     }
 
@@ -28,13 +30,13 @@ public abstract class AbstractPlayer implements Player {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public String getPlayerName() {
+        return this.name.get();
     }
 
     @Override
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayerName(String name) {
+        this.name.set(name);
     }
 
     @Override
@@ -59,7 +61,7 @@ public abstract class AbstractPlayer implements Player {
 
     @Override
     public String toString() {
-        return "Player name: " + this.name + ". Player color: " + this.color;
+        return "Player name: " + this.name.get() + ". Player color: " + this.color;
     }
 
 }

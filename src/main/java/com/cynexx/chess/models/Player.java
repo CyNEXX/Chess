@@ -5,6 +5,7 @@
  */
 package com.cynexx.chess.models;
 
+import javafx.beans.property.StringProperty;
 import javafx.scene.paint.Color;
 
 /**
@@ -19,12 +20,14 @@ public interface Player {
 
     public void resetTimer();
 
-    public String getName();
+    public String getPlayerName();
 
-    public void setName(String name);
+    public void setPlayerName(String name);
 
     public Color getColor();
 
     public void setColor(Color color);
+    
+    public StringProperty nameProperty();
 
 }

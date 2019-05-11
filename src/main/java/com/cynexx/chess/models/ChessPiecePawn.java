@@ -20,8 +20,9 @@ public class ChessPiecePawn extends AbstractChessPiece {
     private final String pattern = "p";
     private final String mapView = "[p]";
 
-    private final String whiteSymbol = "[" + "\u2659" + "]";
-    private final String blackSymbol = "[" + "\u265F" + "]";
+    private final String whiteSymbol = "\u2659";
+    private final String blackSymbol = "\u265F";
+    private static int timesCreated = 0;
 
     public ChessPiecePawn(AbstractChessPiece.ChessColor chessPieceColor) {
         if (chessPieceColor == AbstractChessPiece.ChessColor.BLACK) {
@@ -30,6 +31,7 @@ public class ChessPiecePawn extends AbstractChessPiece {
         if (chessPieceColor == AbstractChessPiece.ChessColor.WHITE) {
             symbol = whiteSymbol;
         }
+        timesCreated++;
     }
 
     @Override
@@ -70,6 +72,11 @@ public class ChessPiecePawn extends AbstractChessPiece {
     @Override
     public List<Coordonate> getAllMoves(Coordonate currentCoordonates, Table table) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getTimesCreated() {
+        return timesCreated;
     }
 
 }

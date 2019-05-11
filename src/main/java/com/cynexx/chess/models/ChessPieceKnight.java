@@ -20,8 +20,9 @@ public class ChessPieceKnight extends AbstractChessPiece {
     private final boolean jump = true;
     private final String mapView = "[n]";
 
-    private final String whiteSymbol = "[" + "\u2658" + "]";
-    private final String blackSymbol = "[" + "\u265E" + "]";
+    private final String whiteSymbol = "\u2658";
+    private final String blackSymbol = "\u265E";
+    private static int timesCreated = 0;
 
     public ChessPieceKnight(AbstractChessPiece.ChessColor chessPieceColor) {
         if (chessPieceColor == AbstractChessPiece.ChessColor.BLACK) {
@@ -30,6 +31,7 @@ public class ChessPieceKnight extends AbstractChessPiece {
         if (chessPieceColor == AbstractChessPiece.ChessColor.WHITE) {
             symbol = whiteSymbol;
         }
+        timesCreated++;
     }
 
     @Override
@@ -75,6 +77,11 @@ public class ChessPieceKnight extends AbstractChessPiece {
     @Override
     public boolean canJump() {
         return this.jump;
+    }
+
+    @Override
+    public int getTimesCreated() {
+        return timesCreated;
     }
 
 }

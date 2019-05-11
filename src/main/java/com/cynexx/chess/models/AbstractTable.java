@@ -17,9 +17,9 @@ public abstract class AbstractTable implements Table {
 
     private final int nrOfRows;
     private final int nrOfColumns;
-    public LinkedHashMap<TableSlot, Coordonate> allTableSlotCoordonates = new LinkedHashMap<>();
+    public Map<TableSlot, Coordonate> allTableSlotCoordonates = new LinkedHashMap<>();
 
-    public LinkedHashMap<Coordonate, TableSlot> coordonatesOfAllTableSlots;
+    public Map<Coordonate, TableSlot> coordonatesOfAllTableSlots;
 
     public AbstractTable(int nrOfRows, int nrOfColumns) {
         this.nrOfRows = nrOfRows;
@@ -38,12 +38,12 @@ public abstract class AbstractTable implements Table {
     }
 
     @Override
-    public LinkedHashMap<TableSlot, Coordonate> getAllTableSlotCoordonates() {
+    public Map<TableSlot, Coordonate> getAllTableSlotCoordonates() {
         return (LinkedHashMap<TableSlot, Coordonate>) this.allTableSlotCoordonates;
     }
 
     @Override
-    public LinkedHashMap<Coordonate, TableSlot> getCoordonatesOfAllTableSlots() {
+    public Map<Coordonate, TableSlot> getCoordonatesOfAllTableSlots() {
         return this.coordonatesOfAllTableSlots;
     }
 

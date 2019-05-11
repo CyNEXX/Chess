@@ -5,6 +5,8 @@
  */
 package com.cynexx.chess.models;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,20 +17,23 @@ import java.util.Map;
 public abstract class AbstractGame implements Game {
 
     private List<Player> playerList;
-    private Player currentPlayer;
+   // private Player currentPlayer;
     public Table table;
     private Map<Player, List<ChessPiece>> playerInventory;
 
     public AbstractGame(Table table, List<Player> playerList) {
         this.table = table.getTable();
         this.playerList = playerList;
+        playerInventory = new LinkedHashMap<>();
+        for (int i = 0; i < playerList.size(); i++) {
+            playerInventory.put(playerList.get(i), new ArrayList<>());
+        }
     }
 
-    @Override
+    /* @Override
     public void moveFromTo(Player player, Coordonate from, Coordonate to) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
+    }*/
     @Override
     public void saveTable() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -39,10 +44,7 @@ public abstract class AbstractGame implements Game {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public Player getCurrentPlayer() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+
 
     @Override
     public void addToCalsualties(Player player, ChessPiece chessPiece) {
@@ -64,19 +66,19 @@ public abstract class AbstractGame implements Game {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
+    /*@Override
     public Player nextPlayer() {
         int currentIndex = playerList.indexOf(currentPlayer);
         if (currentIndex < playerList.size() - 1) {
             return currentPlayer = playerList.get(currentIndex + 1);
         }
         return playerList.get(0);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
-    }
+    }*/
 
     @Override
     public void addPlayer(Player player) {
@@ -89,7 +91,13 @@ public abstract class AbstractGame implements Game {
     }
 
     @Override
-    public void setPlayerInventory() {
+    public void addToPlayerInventory(Player player, ChessPiece chesspiece) {
+
+    }
+
+    @Override
+    public List<Player> getPlayerList() {
+        return this.playerList;
     }
 
 }
