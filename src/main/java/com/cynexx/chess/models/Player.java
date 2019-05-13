@@ -29,5 +29,7 @@ public interface Player {
     public void setColor(Color color);
     
     public StringProperty nameProperty();
+    
+    public String getID();
 
 }

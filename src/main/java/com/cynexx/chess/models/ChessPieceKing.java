@@ -143,4 +143,14 @@ public class ChessPieceKing extends AbstractChessPiece {
         return timesCreated;
     }
 
+    @Override
+    public List<List<Integer[]>> getAllMovingPositions(int currentRow, int currentColumn, int totalRows, int totalColumns) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public List<List<Integer[]>> getAllAttackingPositions(int currentRow, int currentColumn, int totalRows, int totalColumns) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

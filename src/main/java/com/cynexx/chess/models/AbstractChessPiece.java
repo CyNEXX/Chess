@@ -5,7 +5,9 @@
  */
 package com.cynexx.chess.models;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -24,6 +26,9 @@ public abstract class AbstractChessPiece implements ChessPiece {
     private String pattern;
     private int value;
     private String ID;
+    private int timesMoved = 0;
+    private List<Comparator<Integer[]>> comparatorRules;
+    private Map<List<Integer[]>, Comparator<Integer[]>> directionComparatorMap;
 
     private boolean inCheck;
     private boolean inCheckMate;
@@ -49,6 +54,16 @@ public abstract class AbstractChessPiece implements ChessPiece {
     @Override
     public int getValue() {
         return this.value;
+    }
+
+    @Override
+    public List<Comparator<Integer[]>> getComparatorRules() {
+        return comparatorRules;
+    }
+
+    @Override
+    public Map<List<Integer[]>, Comparator<Integer[]>> getDirectionComparatorMap() {
+        return directionComparatorMap;
     }
 
     @Override
@@ -126,6 +141,16 @@ public abstract class AbstractChessPiece implements ChessPiece {
     @Override
     public int hashCode() {
         return this.getID().hashCode();
+    }
+
+    @Override
+    public boolean hasMoved() {
+        return timesMoved != 0;
+    }
+
+    @Override
+    public int getTimesMoved() {
+        return timesMoved;
     }
 
 }

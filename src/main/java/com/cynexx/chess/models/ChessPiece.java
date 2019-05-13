@@ -5,7 +5,9 @@
  */
 package com.cynexx.chess.models;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -16,9 +18,9 @@ public interface ChessPiece {
     public String getPattern();
 
     public String getSymbol();
-    
+
     public String getID();
-    
+
     public void setID(String id);
 
     public String getPieceType();
@@ -48,5 +50,17 @@ public interface ChessPiece {
     public void resurrect();
 
     public int getTimesCreated();
+
+    public boolean hasMoved();
+
+    public int getTimesMoved();
+
+    public List<List<Integer[]>> getAllMovingPositions(int currentColumn, int currentRow, int totalColumns, int totalRows);
+
+    public List<List<Integer[]>> getAllAttackingPositions(int currentColumn, int currentRow, int totalColumns, int totalRows);
+
+    public List<Comparator<Integer[]>> getComparatorRules();
+
+    public Map<List<Integer[]>, Comparator<Integer[]>> getDirectionComparatorMap();
 
 }

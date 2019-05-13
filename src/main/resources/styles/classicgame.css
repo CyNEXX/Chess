@@ -41,9 +41,9 @@
     -fx-text-alignment: center;
 }
 
-.slotbuttons:hover {    
+/*.slotbuttons:hover {    
     -fx-background-color: white;
-}
+}*/
 
 .slotbuttons:selected {    
 
@@ -163,6 +163,17 @@
     -fx-background-color: blue;
 }
 
-.hoverableslot:hover {
+/*.hoverableslot:hover {
     -fx-background-color: white;
+}*/
+
+.hoverablebutton:hover {
+    -fx-background-color: white;
+    -fx-text-fill: -fx---darkgray;
 }
+
+/*.hoverablebutton:hover.hoverablebutton:selected{
+    -fx-background-color: white;
+    -fx-text-fill: -fx---darkgray;
+}*/
+

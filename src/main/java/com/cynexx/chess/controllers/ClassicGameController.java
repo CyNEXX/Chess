@@ -11,6 +11,7 @@ import java.math.BigInteger;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,35 +55,35 @@ import javafx.stage.Stage;
  * @author CyNEXX
  */
 public class ClassicGameController extends AbstractGame implements Initializable {
-    
+
     private Player player_one, player_two;
     private static List<Player> playerList = new ArrayList<>();
     private final static int NR_OF_COLUMNS = 8;
     private final static int NR_OF_ROWS = 8;
     private static Table mainTable = TableClassic.getTableInstance();
     private Game game;
-    
+
     private ObjectProperty<Player> currentPlayer = new SimpleObjectProperty<>();
     private final String ORIGINAL_PATTERN = "1ra8-1nb8-1bc8-1qd8-1ke8-1bf8-1ng8-1rh8-1pa7-1pb7-1pc7-1pd7-1pe7-1pf7-1pg7-1ph7-0pa2-0pb2-0pc2-0pd2-0pe2-0pf2-0pg2-0ph2-0ra1-0nb1-0bc1-0qd1-0ke1-0bf1-0ng1-0rh1";
-    
+
     private final ObservableMap<Player, List<ChessPiece>> playerInventory = new SimpleMapProperty<>();
-    
+
     private final Map<Player, List<ChessPiece>> inventory = new LinkedHashMap<>();
     private static final Map<Integer, Integer> adaptedToViewRowTable = new LinkedHashMap<>();
     private static final Map<String, Integer> adaptedToViewColumnTable = new LinkedHashMap<>();
     private static final Map<Integer, Integer> viewToClassicRowTable = new LinkedHashMap<>();
     private static final Map<Integer, String> viewToClassicColumnTable = new LinkedHashMap<>();
     private static final Map<String, ChessPiece> nameToChessPieceTable = new HashMap<>();
-    
+
     private final StringProperty slotStyleProperty = new SimpleStringProperty();
-    private static ObjectProperty<ChessPiece> currentChessPiece;
-    
-    private final static StringProperty currentChessPieceText = new SimpleStringProperty();
-    
+    private static ObjectProperty<ChessPiece> displayChessPiece;
+
+    private final static StringProperty displayChessPieceText = new SimpleStringProperty();
+
     public ClassicGameController() {
-        
+
         super(mainTable, playerList);
-        
+
         adaptedToViewRowTable.put(1, 7);
         adaptedToViewRowTable.put(2, 6);
         adaptedToViewRowTable.put(3, 5);
@@ -91,7 +92,7 @@ public class ClassicGameController extends AbstractGame implements Initializable
         adaptedToViewRowTable.put(6, 2);
         adaptedToViewRowTable.put(7, 1);
         adaptedToViewRowTable.put(8, 0);
-        
+
         adaptedToViewColumnTable.put("a", 0);
         adaptedToViewColumnTable.put("b", 1);
         adaptedToViewColumnTable.put("c", 2);
@@ -100,72 +101,72 @@ public class ClassicGameController extends AbstractGame implements Initializable
         adaptedToViewColumnTable.put("f", 5);
         adaptedToViewColumnTable.put("g", 6);
         adaptedToViewColumnTable.put("h", 7);
-        
+
         BiConsumer<Integer, Integer> viewToClassicRowTableConsumer = (classicValue, viewValue) -> {
             viewToClassicRowTable.put(viewValue, classicValue);
         };
-        
+
         BiConsumer<String, Integer> viewToClassicColumnTableConsumer = (classicValue, viewValue) -> {
             viewToClassicColumnTable.put(viewValue, classicValue);
         };
-        
+
         adaptedToViewRowTable.forEach(viewToClassicRowTableConsumer);
         adaptedToViewColumnTable.forEach(viewToClassicColumnTableConsumer);
-        
+
         player_one = new PlayerLocal("Ion", Color.WHITE);
         player_two = new PlayerLocal("Vasile", Color.BLACK);
         player_one.setPlayerName("Ion");
         player_two.setPlayerName("Vasile");
         playerList.add(player_one);
         playerList.add(player_two);
-        
+
         mainTable.initializeBlankTable();
-        
+
     }
-    
+
     public Map<Player, List<ChessPiece>> getInventory() {
         return this.inventory;
     }
-    
+
     @FXML
     public URL url;
-    
+
     @FXML
     public ResourceBundle rb;
-    
+
     @FXML
     private ToggleGroup toggleGroup;
-    
+
     @FXML
     public ToggleButton selectedButton;
-    
+
     @FXML
     public Label playerLabel;
-    
+
     @FXML
     public VBox mainVBox;
-    
+
     @FXML
     public VBox tablePane;
-    
+
     @FXML
     public VBox playerPane;
-    
+
     @FXML
     public GridPane tableGrid;
-    
+
     @FXML
     public Button currentButton;
-    
+
     @FXML
     public HBox selectPane;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         selectedButton = new ToggleButton();
-        
+
         tableGrid = new GridPane();
-        currentChessPiece = new SimpleObjectProperty<>();
+        displayChessPiece = new SimpleObjectProperty<>();
         boolean evenRow;
         toggleGroup = new ToggleGroup();
         String slotclasscolor;
@@ -192,98 +193,103 @@ public class ClassicGameController extends AbstractGame implements Initializable
                 tempHBox.getStyleClass().add(slotclasscolor);
                 tempHBox.getStyleClass().add("tableslot");
                 tableGrid.add(tempHBox, k, i);
+                ToggleButton newButton = new ToggleButton();
+                toggleGroup.getToggles().add(newButton);
+                newButton.getStyleClass().add("slotbuttons");
+                newButton.setDisable(true);
+                tempHBox.getChildren().add(newButton);
             }
-            currentButton.textProperty().bind(currentChessPieceText);
+            currentButton.textProperty().bind(displayChessPieceText);
         }
-        
+
         setCurrentPlayer(playerList.get(0));
-        
+
         startGame();
-        
+
         playerLabel.textProperty().bind(getCurrentPlayer().nameProperty());
-        
+
         tableGrid.setId("maingrid");
         tableGrid.getStyleClass().add("maingridclass");
         tablePane.getChildren().add(tableGrid);
     }
-    
+
     private Integer getClassicRowValue(Integer viewRowValue) {
         return viewToClassicRowTable.get(viewRowValue);
     }
-    
+
     private String getClassicColumnValue(Integer viewColumnValue) {
         return viewToClassicColumnTable.get(viewColumnValue);
     }
-    
+
     public void createTableLayout() {
-        
+
     }
-    
+
     @FXML
     public String getSlotStyle() {
         return slotStyleProperty.get();
     }
-    
+
     @FXML
     public void setSlotStyle(String slotStyle) {
         slotStyleProperty.set(slotStyle);
     }
-    
+
     @FXML
     public StringProperty slotStyleProperty() {
         return slotStyleProperty;
     }
-    
+
     @FXML
-    public String getCurrentChessPieceText() {
-        return currentChessPieceText.get();
+    public String getDisplayChessPieceText() {
+        return displayChessPieceText.get();
     }
-    
+
     @FXML
-    public StringProperty currentChessPieceTextProperty() {
-        return currentChessPieceText;
+    public StringProperty displayChessPieceTextProperty() {
+        return displayChessPieceText;
     }
-    
-    public void setCurrentChessPieceText(String selectedChessPieceText) {
-        currentChessPieceText.set(selectedChessPieceText);
+
+    public void setDisplayChessPieceText(String selectedChessPieceText) {
+        displayChessPieceText.set(selectedChessPieceText);
     }
-    
+
     @FXML
-    public ObjectProperty<ChessPiece> currentChessPieceProperty() {
-        return currentChessPiece;
+    public ObjectProperty<ChessPiece> displayChessPieceProperty() {
+        return displayChessPiece;
     }
-    
+
     @FXML
-    public ChessPiece currentChessPiece() {
-        return currentChessPiece.get();
+    public ChessPiece getDisplayChessPiece() {
+        return displayChessPiece.get();
     }
-    
-    public void setCurrentChessPiece(ChessPiece selectedChessPiece) {
-        currentChessPiece.set(selectedChessPiece);
+
+    public void setDisplayChessPiece(ChessPiece selectedChessPiece) {
+        displayChessPiece.set(selectedChessPiece);
     }
-    
+
     public Table getTable() {
         return mainTable;
     }
-    
+
     @Override
     public void initializePlayersInventory() {
         getPlayerList().forEach((Player p) -> {
             inventory.put(p, new ArrayList<>());
         });
     }
-    
+
     @Override
     public void startGame() {
         initializePlayersInventory();
         populateTable();
         mainTable.createPrintableTable();
-        
+
     }
-    
+
     @Override
     public void populateTable() {
-        
+
         Pattern.compile("-").splitAsStream(ORIGINAL_PATTERN).forEach((string) -> {
             ChessPiece cp = null;
             AbstractChessPiece.ChessColor pieceColorSymbol;
@@ -291,37 +297,37 @@ public class ClassicGameController extends AbstractGame implements Initializable
             String piecePattern = string.substring(1, 2);
             int columnFromPattern = adaptedToViewColumnTable.get(string.substring(2, 3));
             int rowFromPattern = adaptedToViewRowTable.get(Integer.valueOf(string.substring(3, 4)));
-            
+
             if (ownerIndex == 0) {
                 pieceColorSymbol = AbstractChessPiece.ChessColor.WHITE;
             } else {
                 pieceColorSymbol = AbstractChessPiece.ChessColor.BLACK;
             }
-            
+
             switch (piecePattern) {
                 case "r": {
                     cp = new ChessPieceRook(pieceColorSymbol);
-                    System.out.println("Created " + cp);
+                    //    System.out.println("Created " + cp);
                     break;
                 }
                 case "q": {
                     cp = new ChessPieceQueen(pieceColorSymbol);
-                    System.out.println("Created " + cp);
+                    //    System.out.println("Created " + cp);
                     break;
                 }
                 case "b": {
                     cp = new ChessPieceBishop(pieceColorSymbol);
-                    System.out.println("Created " + cp);
+                    //   System.out.println("Created " + cp);
                     break;
                 }
                 case "n": {
                     cp = new ChessPieceKnight(pieceColorSymbol);
-                    System.out.println("Created " + cp);
+                    //    System.out.println("Created " + cp);
                     break;
                 }
                 case "k": {
                     cp = new ChessPieceKing(pieceColorSymbol);
-                    System.out.println("Created " + cp);
+                    //    System.out.println("Created " + cp);
                     break;
                 }
                 case "p": {
@@ -331,74 +337,153 @@ public class ClassicGameController extends AbstractGame implements Initializable
                 }
                 default: {
                     cp = new ChessPieceFake();
-                    System.out.println("Created Nothing");
+                    System.out.println("Created a fake");
                     break;
                 }
             }
-            
-            ToggleButton tempButton = new ToggleButton(cp.getSymbol());
-            System.out.println("Got string from cp: " + toHex(cp.getSymbol()));
-            String tempChessPieceID = ownerIndex + piecePattern + "_" + cp.getTimesCreated();
-            cp.setID(tempChessPieceID);
-            tempButton.setId(tempChessPieceID);
-            tempButton.getStyleClass().add("slotbuttons");
-            tempButton.getStyleClass().add("owner_" + ownerIndex);
-            toggleGroup.getToggles().add(tempButton);
-            
+
+            ToggleButton tempButton = (ToggleButton) ((HBox) getNodeFromGridPane(tableGrid, columnFromPattern, rowFromPattern)).getChildren().get(0);
+
+            String tempChessPieceID = null;
+            if (!(cp instanceof ChessPieceFake)) {
+                tempButton.setText(cp.getSymbol());
+                tempButton.setUserData(cp);
+                tempButton.setDisable(false);
+                tempChessPieceID = ownerIndex + piecePattern + "_" + cp.getTimesCreated();
+                cp.setID(tempChessPieceID);
+                tempButton.setId(tempChessPieceID);
+                tempButton.getStyleClass().add("hoverablebutton");
+                tempButton.getStyleClass().add("owner_" + ownerIndex);
+            } else {
+                tempButton.setId("fake_" + cp.getTimesCreated());
+            }
+
             nameToChessPieceTable.put(tempChessPieceID, cp);
             if (!(cp instanceof ChessPieceFake)) {
                 (getInventory().get(getPlayerList().get(ownerIndex))).add(cp);
             }
-            
-            ((HBox) getNodeFromGridPane(tableGrid, columnFromPattern, rowFromPattern)).getChildren().add(tempButton);
+
         });
-        
+
         toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
             @Override
             public void changed(ObservableValue<? extends Toggle> observableValue, Toggle oldValue, Toggle newValue) {
+
                 if ((oldValue != null) && (newValue == null)) {
+
                     System.out.println("No chess piece selected");
-                    currentChessPiece.setValue(null);
-                    currentChessPieceText.set(null);
+                    displayChessPiece.setValue(null);
+                    displayChessPieceText.set(null);
                     tableGrid.getChildren().forEach((node) -> {
-                        ((HBox) node).getStyleClass().remove("hoverableslot");
+
+                        if ((((ToggleButton) ((HBox) node).getChildren().get(0))).getUserData() == null) {
+                            ((ToggleButton) ((HBox) node).getChildren().get(0)).setDisable(true);
+                            ((ToggleButton) ((HBox) node).getChildren().get(0)).getStyleClass().remove("hoverablebutton");
+
+                        }
                     });
-                    
+
                 }
+
                 if (newValue != null) {
-                    if (oldValue == null) {
-                        tableGrid.getChildren().forEach((node) -> {
-                            ((HBox) node).getStyleClass().add("hoverableslot");
-                        });
-                    }
+                    ChessPiece targetChessPiece = null;
                     ToggleButton selectedToggleButton = (ToggleButton) newValue;
+                    ToggleButton originalToggleButton;
+                    List<List<Integer[]>> movesList;
+                    if (selectedToggleButton.getUserData() != null) {
+                        targetChessPiece = getChessPieceFromButton(selectedToggleButton);
+                        displayChessPiece.setValue(getChessPieceFromButton(selectedToggleButton));
+
+                        tableGrid.getChildren().forEach((node) -> {
+                            if ((((ToggleButton) ((HBox) node).getChildren().get(0))).getUserData() == null) {
+                                ((ToggleButton) ((HBox) node).getChildren().get(0)).setDisable(false);
+                                ((ToggleButton) ((HBox) node).getChildren().get(0)).getStyleClass().add("hoverablebutton");
+                            }
+
+                        });
+
+                        if (playerList.get(Integer.valueOf(selectedToggleButton.getId().substring(0, 1))) == currentPlayer.getValue()) {
+                            movesList = ((ChessPiece) selectedToggleButton.getUserData()).
+                                    getAllMovingPositions(GridPane.getColumnIndex(selectedToggleButton.getParent()),
+                                            NR_OF_ROWS - 1 - GridPane.getRowIndex(selectedToggleButton.getParent()),
+                                            NR_OF_COLUMNS, NR_OF_ROWS);
+                            int totalPossibleMoves = 0;
+
+                            for (int i = 0; i < movesList.size(); i++) {
+                                System.out.println("Getting the list ready... ");
+                                for (int j = 0; j < movesList.get(i).size(); j++) {
+                                    totalPossibleMoves++;
+                                    for (int k = 0; k < movesList.get(i).get(j).length; k++) {
+                                        System.out.println(" > " + movesList.get(i).get(j)[k]);
+                                    }
+
+                                }
+
+                            }
+                            System.out.println("Number of ideal moves: " + totalPossibleMoves);
+                            evaluateMovementOptions(movesList);
+                        }
+
+                    }
+
+                    if (oldValue != null) {
+                        originalToggleButton = (ToggleButton) oldValue;
+                        if ((getChessPieceFromButton(originalToggleButton) != null) && ((getInventory().get(currentPlayer.get())).contains(getChessPieceFromButton(originalToggleButton)))) {
+                            if (selectedToggleButton.getUserData() == null) {
+
+                                if (!displayChessPiece.get().canJump()) {
+                                    getChessPieceFromButton(originalToggleButton).getDirectionComparatorMap().forEach((list, comparator) -> {
+                                        list.sort(comparator.reversed());
+                                    });
+                                    
+                                    swapButtons(originalToggleButton, selectedToggleButton);
+                                }
+                            } else {
+                                swapButtons(originalToggleButton, selectedToggleButton);
+                            }
+                        }
+                    }
+
                     ToggleButton previousToggleButton = (ToggleButton) oldValue;
-                    currentChessPiece.setValue(nameToChessPieceTable.get(selectedToggleButton.getId()));
-                    System.out.println("Button selected: " + selectedToggleButton.getId() + ". CP: " + nameToChessPieceTable.get(selectedToggleButton.getId()));
-                    System.out.println("Style classes before removing: " + selectPane.getStyleClass().size());
-                    
+
+                    System.out.println("Button selected: " + selectedToggleButton.getId() + ". CP: " + targetChessPiece);
                     selectPane.getStyleClass().clear();
-                    System.out.println("No of style classes after removal " + selectPane.getStyleClass().size());
-                    System.out.println("Style classes after removal " + selectPane.getStyleClass());
-                    
-                    System.out.println("selectedToggleButton style: " + selectedToggleButton.getParent().getStyleClass());
-                    
                     selectPane.getStyleClass().addAll(selectedToggleButton.getParent().getStyleClass());
-                    System.out.println("Adding class...: " + selectedToggleButton.getParent().getStyleClass()
-                            + ". Actual class is: " + selectPane.getStyleClass());
-                    
-                    currentChessPieceText.set(selectedToggleButton.getText());
-                    
-                    System.out.println("display slot class: " + selectPane.getStyleClass());
-                    System.out.println("currentChessPiece text: " + currentChessPiece.getValue());
-                    
-                    
+
+                    displayChessPieceText.set(selectedToggleButton.getText());
+
                 }
-                
+
             }
+        }
+        );
+    }
+
+    public void evaluateMovementOptions(List<List<Integer[]>> possibleMovesList) {
+        possibleMovesList.forEach((direction) -> {
+            direction.forEach((arrayOfCoordonates) -> {
+                HBox tempBox = (HBox) getNodeFromGridPane(tableGrid, arrayOfCoordonates[0], arrayOfCoordonates[1]);
+                if (tempBox.getChildren().get(0).getUserData() != null) {
+                    direction.remove(arrayOfCoordonates);
+                }
+            });
+        });
+        possibleMovesList.forEach((direction) -> {
+            direction.forEach((entry) -> {
+                boolean foundBlock = false;
+                if (foundBlock) {
+                    entry = null;
+                }
+                if (entry == null) {
+                    foundBlock = true;
+                }
+            });
+        });
+        possibleMovesList.forEach((direction) -> {
+            direction.removeIf((element) -> element == null);
         });
     }
-    
+
     public String toHex(String arg) {
         String response = "";
         try {
@@ -407,7 +492,7 @@ public class ClassicGameController extends AbstractGame implements Initializable
             return response;
         }
     }
-    
+
     private Node getNodeFromGridPane(GridPane gridPane, int col, int row) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
@@ -416,7 +501,33 @@ public class ClassicGameController extends AbstractGame implements Initializable
         }
         return null;
     }
-    
+
+    private ToggleButton getButtonFromGridPane(GridPane gridPane, int col, int row) {
+        for (Node node : gridPane.getChildren()) {
+            if (GridPane.getColumnIndex(node) == col && GridPane.getRowIndex(node) == row) {
+                return (ToggleButton) node;
+            }
+        }
+        return null;
+    }
+
+    public void swapButtons(ToggleButton fromButton, ToggleButton toButton) {
+        System.out.println("Moving things...");
+        int[] originalButtonCoordonates = {GridPane.getColumnIndex(fromButton.getParent()), GridPane.getRowIndex(fromButton.getParent())};
+        int[] targetButtonCoordonates = {GridPane.getColumnIndex(toButton.getParent()), GridPane.getRowIndex(toButton.getParent())};
+
+        HBox sourceBox = (HBox) getNodeFromGridPane(tableGrid, originalButtonCoordonates[0], originalButtonCoordonates[1]);
+        sourceBox.getChildren().clear();
+        sourceBox.getChildren().add(toButton);
+
+        HBox destinationBox = (HBox) getNodeFromGridPane(tableGrid, targetButtonCoordonates[0], targetButtonCoordonates[1]);
+        destinationBox.getChildren().clear();
+        destinationBox.getChildren().add(fromButton);
+        toggleGroup.getSelectedToggle().setSelected(false);
+    }
+
+    ;
+
     @Override
     public void movePiece(Player player, Coordonate fromCoordonate, Coordonate toCoordonate) {
         if (player.getPlayerName().equals(getCurrentPlayer().getPlayerName())) {
@@ -435,25 +546,29 @@ public class ClassicGameController extends AbstractGame implements Initializable
             }
         }
     }
-    
+
     @Override
     public Player getCurrentPlayer() {
         return currentPlayer.getValue();
     }
-    
+
+    public ChessPiece getChessPieceFromButton(ToggleButton button) {
+        return (ChessPiece) button.getUserData();
+    }
+
     @Override
     public void setCurrentPlayer(Player player) {
         currentPlayer.setValue(player);
     }
-    
+
     @Override
     public ObjectProperty<Player> currentPlayerProperty() {
         return currentPlayer;
     }
-    
+
     @Override
     public Player nextPlayer() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }

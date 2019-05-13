@@ -49,7 +49,7 @@ public abstract class AbstractTable implements Table {
 
     @Override
     public void putCoordonateAndTableSlot(Coordonate coordonate, TableSlot tableslot) {
-        System.out.println("Added @" + coordonate + ". tableSlot: " + tableslot);
+       // System.out.println("Added @" + coordonate + ". tableSlot: " + tableslot);
         coordonatesOfAllTableSlots.put(coordonate, tableslot);
     }
 ;

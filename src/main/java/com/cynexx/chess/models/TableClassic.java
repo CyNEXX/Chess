@@ -40,7 +40,7 @@ public class TableClassic extends AbstractTable {
 
     @Override
     public void initializeBlankTable() {
-        System.out.println("Initializing a blank table with " + NR_OF_COLUMNS * NR_OF_ROWS + " coordonates...");
+      /*  System.out.println("Initializing a blank table with " + NR_OF_COLUMNS * NR_OF_ROWS + " coordonates...");
         boolean evenRow;
         for (int i = 1; i <= NR_OF_ROWS; i++) {
             Color slotColor = Color.BLACK;
@@ -61,16 +61,16 @@ public class TableClassic extends AbstractTable {
                 this.putCoordonateAndTableSlot(coordonate, tempSlot);
             }
         }
-        System.out.println("Done initializing table.");
+        System.out.println("Done initializing table.");*/
     }
 
     @Override
     public void createPrintableTable() {
-        tempString = "";
+      /*  tempString = "";
         System.out.println("Creating table preivew...");
         getCoordonatesOfAllTableSlots().forEach(tableBuilder);
         System.out.println("Done creating printable preview.");
-        quickPreview();
+        quickPreview();*/
     }
 
     BiConsumer<Coordonate, TableSlot> tableBuilder = (c, t) -> {
@@ -87,10 +87,10 @@ public class TableClassic extends AbstractTable {
 
     @Override
     public void quickPreview() {
-        System.out.println("Printing table... " + mapView.size() + " rows.");
+     /*   System.out.println("Printing table... " + mapView.size() + " rows.");
         for (int i = mapView.size() - 1; i >= 0; i--) {
             System.out.println(mapView.get(i));
-        }
+        }*/
     }
 
 }
